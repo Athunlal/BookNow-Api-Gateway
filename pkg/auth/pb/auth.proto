@@ -23,7 +23,7 @@ message RegisterRequest {
     string phone = 4;
   }
   
-  message RegisterResponse {
+ message RegisterResponse {
     int64 status = 1;
     string error = 2;
   }
