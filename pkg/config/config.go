@@ -17,5 +17,7 @@ func LoadConfig() (Config, error) {
 	err := viper.ReadInConfig()
 
 	err = viper.Unmarshal(&cfg)
+
 	return cfg, err
+
 }
