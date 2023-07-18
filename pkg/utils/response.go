@@ -8,8 +8,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-//In Go, the strings.Split() function is used to split a string into substrings based on a specified delimiter. It returns a slice of substrings.
-
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
