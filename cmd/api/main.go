@@ -6,6 +6,7 @@ import (
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/auth"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/config"
+	"github.com/athunlal/bookNow-Api-Gateway/pkg/user"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +18,7 @@ func main() {
 	r := gin.Default()
 
 	authsvc := *auth.RegisterRoutes(r, &cfg)
+	user.RegisterUserRoutes(r, &cfg, &authsvc)
 
 	fmt.Println(authsvc)
 	r.Run(cfg.Port)
