@@ -7,6 +7,7 @@ type Config struct {
 	Authsvcurl    string `mapstructure:"AUTHSVCURL"`
 	Usersvcurl    string `mapstructure:"USERSVCURL"`
 	Productsvcurl string `mapstructure:"productsvcurl"`
+	Adminsvcurl   string `mapstructure:"adminsvcurl"`
 }
 
 func LoadConfig() (Config, error) {

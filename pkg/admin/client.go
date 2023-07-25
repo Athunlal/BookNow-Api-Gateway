@@ -13,7 +13,7 @@ type ServiceAdmin struct {
 }
 
 func InitServiceClient(cfg *config.Config) pb.AdminServiceClient {
-	grpc, err := grpc.Dial(cfg.Authsvcurl, grpc.WithInsecure())
+	grpc, err := grpc.Dial(cfg.Adminsvcurl, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalln("Could not connect to the server: ", err)
 	}
