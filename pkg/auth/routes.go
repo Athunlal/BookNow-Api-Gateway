@@ -22,7 +22,6 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) *ServiceAuth {
 	}
 	admin := r.Group("/admin")
 	{
-		admin.POST("/login", svc.AdminLogin)
 		admin.POST("/forget/password", svc.ForgotPassword)
 		admin.POST("/forget/password/validate", svc.RegitserValidate)
 		admin.PATCH("/forget/password/validate/newpassword", svc.ChangePassword)
@@ -41,10 +40,6 @@ func (svc *ServiceAuth) RegitserValidate(ctx *gin.Context) {
 
 func (svc *ServiceAuth) Login(ctx *gin.Context) {
 	routes.Login(ctx, svc.client)
-}
-
-func (svc *ServiceAuth) AdminLogin(ctx *gin.Context) {
-	routes.AdminLogin(ctx, svc.client)
 }
 
 func (svc *ServiceAuth) ForgotPassword(ctx *gin.Context) {
