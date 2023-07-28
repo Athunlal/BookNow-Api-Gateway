@@ -8,6 +8,7 @@ type Config struct {
 	Usersvcurl    string `mapstructure:"USERSVCURL"`
 	Productsvcurl string `mapstructure:"productsvcurl"`
 	Adminsvcurl   string `mapstructure:"adminsvcurl"`
+	Trainsvurl    string `mapstructure:"trainsvcurl"`
 }
 
 func LoadConfig() (Config, error) {

@@ -146,7 +146,7 @@ func (x *LoginResponse) GetAccesstoken() string {
 	return ""
 }
 
-type ForgotPasswordResponse struct {
+type ChangePasswordResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -155,8 +155,8 @@ type ForgotPasswordResponse struct {
 	Error  string `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ForgotPasswordResponse) Reset() {
-	*x = ForgotPasswordResponse{}
+func (x *ChangePasswordResponse) Reset() {
+	*x = ChangePasswordResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_pkg_admin_pb_admin_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -164,13 +164,13 @@ func (x *ForgotPasswordResponse) Reset() {
 	}
 }
 
-func (x *ForgotPasswordResponse) String() string {
+func (x *ChangePasswordResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ForgotPasswordResponse) ProtoMessage() {}
+func (*ChangePasswordResponse) ProtoMessage() {}
 
-func (x *ForgotPasswordResponse) ProtoReflect() protoreflect.Message {
+func (x *ChangePasswordResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_pkg_admin_pb_admin_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -182,19 +182,19 @@ func (x *ForgotPasswordResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ForgotPasswordResponse.ProtoReflect.Descriptor instead.
-func (*ForgotPasswordResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ChangePasswordResponse.ProtoReflect.Descriptor instead.
+func (*ChangePasswordResponse) Descriptor() ([]byte, []int) {
 	return file_pkg_admin_pb_admin_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ForgotPasswordResponse) GetStatus() int64 {
+func (x *ChangePasswordResponse) GetStatus() int64 {
 	if x != nil {
 		return x.Status
 	}
 	return 0
 }
 
-func (x *ForgotPasswordResponse) GetError() string {
+func (x *ChangePasswordResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
@@ -391,7 +391,7 @@ var file_pkg_admin_pb_admin_proto_rawDesc = []byte{
 	0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x20,
 	0x0a, 0x0b, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x0b, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
-	0x22, 0x46, 0x0a, 0x16, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f,
+	0x22, 0x46, 0x0a, 0x16, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f,
 	0x72, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74,
 	0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74,
 	0x75, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
@@ -422,7 +422,7 @@ var file_pkg_admin_pb_admin_proto_rawDesc = []byte{
 	0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x1c,
 	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73,
 	0x73, 0x77, 0x6f, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x61,
-	0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x46, 0x6f, 0x72, 0x67, 0x6f, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77,
+	0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73, 0x73, 0x77,
 	0x6f, 0x72, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0e, 0x5a,
 	0x0c, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -444,7 +444,7 @@ var file_pkg_admin_pb_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_pkg_admin_pb_admin_proto_goTypes = []interface{}{
 	(*LoginRequest)(nil),           // 0: admin.LoginRequest
 	(*LoginResponse)(nil),          // 1: admin.LoginResponse
-	(*ForgotPasswordResponse)(nil), // 2: admin.ForgotPasswordResponse
+	(*ChangePasswordResponse)(nil), // 2: admin.ChangePasswordResponse
 	(*ChangePasswordRequest)(nil),  // 3: admin.ChangePasswordRequest
 	(*ValidateRequest)(nil),        // 4: admin.ValidateRequest
 	(*ValidateResponse)(nil),       // 5: admin.ValidateResponse
@@ -455,7 +455,7 @@ var file_pkg_admin_pb_admin_proto_depIdxs = []int32{
 	3, // 2: admin.AdminService.ChangePassword:input_type -> admin.ChangePasswordRequest
 	1, // 3: admin.AdminService.Login:output_type -> admin.LoginResponse
 	5, // 4: admin.AdminService.Validate:output_type -> admin.ValidateResponse
-	2, // 5: admin.AdminService.ChangePassword:output_type -> admin.ForgotPasswordResponse
+	2, // 5: admin.AdminService.ChangePassword:output_type -> admin.ChangePasswordResponse
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -494,7 +494,7 @@ func file_pkg_admin_pb_admin_proto_init() {
 			}
 		}
 		file_pkg_admin_pb_admin_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ForgotPasswordResponse); i {
+			switch v := v.(*ChangePasswordResponse); i {
 			case 0:
 				return &v.state
 			case 1:

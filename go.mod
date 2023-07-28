@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/spf13/viper v1.16.0
+	go.mongodb.org/mongo-driver v1.12.0
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
 )

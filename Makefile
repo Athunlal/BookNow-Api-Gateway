@@ -7,5 +7,8 @@ protoUser:
 protoAdmin:
 	protoc --go_out=. --go-grpc_out=. pkg/admin/pb/admin.proto
 
+protoTrain:
+	protoc --go_out=. --go-grpc_out=. pkg/train/pb/train.proto
+
 run:
 	go run cmd/api/main.go

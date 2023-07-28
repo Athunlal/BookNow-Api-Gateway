@@ -9,7 +9,7 @@ option go_package = "pkg/admin/pb";
 service AdminService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Validate(ValidateRequest) returns (ValidateResponse) {}
-  rpc ChangePassword(ChangePasswordRequest) returns (ForgotPasswordResponse) {}
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {}
 }
 
 // Login
@@ -27,8 +27,8 @@ message LoginResponse{
 }
 
 // Forgot Password
-
-message ForgotPasswordResponse{
+ForgotPasswordResponse
+message ChangePasswordResponse{
   int64 status = 1;
   string error = 2;
 }
