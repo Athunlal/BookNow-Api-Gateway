@@ -1,20 +1,35 @@
 syntax = "proto3";
 
+
+
 package Train;
 
 option go_package = "./pkg/train/pb";
 
-service TrainManagement{
+service TrainManagement {
     rpc AddTrain(AddTrainRequest) returns (AddTrainResponse) {}
+    rpc AddStation(AddStationRequest) returns (AddStationResponse) {}
 }
 
-message AddTrainRequest{
-    int64 trainid = 1;
-    int64 trainnumber =2;
-    string trainname = 3;
+// Add station
+message AddStationRequest {
+    string stationname = 1;
+    string city = 2;
 }
 
-message AddTrainResponse{
+message AddStationResponse {
     int64 status = 1;
     string error = 2;
 }
+
+// Add train
+message AddTrainRequest {
+    int64 trainnumber = 1;
+    string trainname = 2;
+}
+
+message AddTrainResponse {
+    int64 status = 1;
+    string error = 2;
+}
+

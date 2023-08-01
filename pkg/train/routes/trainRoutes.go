@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/domain"
@@ -12,16 +11,13 @@ import (
 )
 
 func AddTrain(ctx *gin.Context, c pb.TrainManagementClient) {
-	fmt.Println("reached Add train  -------------------->>>>>>.")
-
 	trainData := domain.Train{}
-	err := ctx.Bind(trainData)
+	err := ctx.Bind(&trainData)
 	if err != nil {
 		utils.JsonInputValidation(ctx)
 		return
 	}
 	res, err := c.AddTrain(context.Background(), &pb.AddTrainRequest{
-		Trainid:     int64(trainData.TrainId),
 		Trainnumber: int64(trainData.TrainNumber),
 		Trainname:   trainData.TrainName,
 	})
@@ -35,7 +31,7 @@ func AddTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
-			"Message": "Edit Profile Succeded",
+			"Message": "Train adding Succeded",
 			"data":    res,
 		})
 	}

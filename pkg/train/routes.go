@@ -7,22 +7,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AddTrainRoutes(train *gin.Engine, cfg *config.Config, adminSVC *admin.ServiceAdmin) {
+func AddTrainRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.ServiceAdmin) {
 	svc := &TraiService{
 		client: InitTrainService(cfg),
 	}
 	authorize := admin.InitAdminMiddleware(adminSVC)
 
-	train.Use(authorize.AuthRequired)
+	r.Use(authorize.AuthRequired)
 
-	admin := train.Group("/train")
+	admin := r.Group("/admin")
 	{
 		admin.POST("/addtrain", svc.AddTrain)
+		admin.POST("/addstation", svc.AddStaion)
+
 	}
 
 }
 
 func (svc *TraiService) AddTrain(ctx *gin.Context) {
-
 	routes.AddTrain(ctx, svc.client)
+}
+func (svc *TraiService) AddStaion(ctx *gin.Context) {
+	routes.AddStaion(ctx, svc.client)
 }
