@@ -1,6 +1,8 @@
 package train
 
 import (
+	"fmt"
+
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/admin"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/config"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/train/routes"
@@ -8,6 +10,8 @@ import (
 )
 
 func AddTrainRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.ServiceAdmin) {
+	fmt.Println("reahce Add route second")
+
 	svc := &TraiService{
 		client: InitTrainService(cfg),
 	}

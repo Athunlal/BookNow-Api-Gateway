@@ -34,16 +34,18 @@ message AddTrainResponse {
     string error = 2;
 }
 
-//Add route
+// Add route
 message RouteStation {
-    int64 stationid = 1;
+    string stationid = 1;
     float distance = 2;
     google.protobuf.Timestamp time = 3;
-}
+   
+} 
 
 message Route {
-    int64 routeid = 1;
-    repeated RouteStation routemap = 2;
+    string routeid = 1;
+    string routename = 2;
+    repeated RouteStation routemap = 3;
 }
 
 message AddRouteRequest {

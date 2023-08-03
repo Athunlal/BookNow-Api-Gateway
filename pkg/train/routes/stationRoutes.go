@@ -2,13 +2,13 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/domain"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/train/pb"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/utils"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func AddRoute(ctx *gin.Context, c pb.TrainManagementClient) {
@@ -19,9 +19,25 @@ func AddRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 		return
 	}
 
-	fmt.Println(routeData.RouteMap)
+	routeRequest := &pb.AddRouteRequest{
+		Route: &pb.Route{
+			Routeid:   routeData.RouteId.Hex(),
+			Routename: routeData.RouteName,
+			Routemap:  make([]*pb.RouteStation, len(routeData.RouteMap)),
+		},
+	}
 
-	res, err := c.AddRoute(context.Background(), &pb.AddRouteRequest{})
+	for i, rs := range routeData.RouteMap {
+		timeProto := timestamppb.New(rs.Time)
+		routeRequest.Route.Routemap[i] = &pb.RouteStation{
+			Distance:  rs.Distance,
+			Time:      timeProto,
+			Stationid: rs.StationId.Hex(),
+		}
+	}
+
+	res, err := c.AddRoute(context.Background(), routeRequest)
+
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -32,7 +48,7 @@ func AddRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
-			"Message": "Route adding Succeded",
+			"Message": "Route adding Succeeded",
 			"data":    res,
 		})
 	}

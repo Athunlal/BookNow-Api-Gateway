@@ -18,7 +18,6 @@ func main() {
 		log.Fatalln("Unable to load the config file : ", err)
 	}
 	r := gin.Default()
-
 	authAdminsvc := *admin.AdminRoutes(r, &cfg)
 	train.AddTrainRoutes(r, &cfg, &authAdminsvc)
 
