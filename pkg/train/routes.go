@@ -19,9 +19,9 @@ func AddTrainRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.ServiceAd
 	{
 		admin.POST("/addtrain", svc.AddTrain)
 		admin.POST("/addstation", svc.AddStaion)
+		admin.POST("/addroute", svc.AddRoute)
 
 	}
-
 }
 
 func (svc *TraiService) AddTrain(ctx *gin.Context) {
@@ -29,4 +29,7 @@ func (svc *TraiService) AddTrain(ctx *gin.Context) {
 }
 func (svc *TraiService) AddStaion(ctx *gin.Context) {
 	routes.AddStaion(ctx, svc.client)
+}
+func (svc *TraiService) AddRoute(ctx *gin.Context) {
+	routes.AddRoute(ctx, svc.client)
 }
