@@ -25,7 +25,6 @@ type ProfileManagementClient interface {
 	ViewAddress(ctx context.Context, in *ViewAddressRequest, opts ...grpc.CallOption) (*ViewAddressResponse, error)
 	ViewAddressById(ctx context.Context, in *ViewAddressByIdRequest, opts ...grpc.CallOption) (*ViewAddressByIdResponse, error)
 	EditAddress(ctx context.Context, in *EditAddressRequest, opts ...grpc.CallOption) (*EditAddressResponse, error)
-	SearchTrain(ctx context.Context, in *SearchTrainRequest, opts ...grpc.CallOption) (*SearchTrainResponse, error)
 }
 
 type profileManagementClient struct {
@@ -99,15 +98,6 @@ func (c *profileManagementClient) EditAddress(ctx context.Context, in *EditAddre
 	return out, nil
 }
 
-func (c *profileManagementClient) SearchTrain(ctx context.Context, in *SearchTrainRequest, opts ...grpc.CallOption) (*SearchTrainResponse, error) {
-	out := new(SearchTrainResponse)
-	err := c.cc.Invoke(ctx, "/profile.ProfileManagement/SearchTrain", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ProfileManagementServer is the server API for ProfileManagement service.
 // All implementations must embed UnimplementedProfileManagementServer
 // for forward compatibility
@@ -119,7 +109,6 @@ type ProfileManagementServer interface {
 	ViewAddress(context.Context, *ViewAddressRequest) (*ViewAddressResponse, error)
 	ViewAddressById(context.Context, *ViewAddressByIdRequest) (*ViewAddressByIdResponse, error)
 	EditAddress(context.Context, *EditAddressRequest) (*EditAddressResponse, error)
-	SearchTrain(context.Context, *SearchTrainRequest) (*SearchTrainResponse, error)
 	mustEmbedUnimplementedProfileManagementServer()
 }
 
@@ -147,9 +136,6 @@ func (UnimplementedProfileManagementServer) ViewAddressById(context.Context, *Vi
 }
 func (UnimplementedProfileManagementServer) EditAddress(context.Context, *EditAddressRequest) (*EditAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditAddress not implemented")
-}
-func (UnimplementedProfileManagementServer) SearchTrain(context.Context, *SearchTrainRequest) (*SearchTrainResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchTrain not implemented")
 }
 func (UnimplementedProfileManagementServer) mustEmbedUnimplementedProfileManagementServer() {}
 
@@ -290,24 +276,6 @@ func _ProfileManagement_EditAddress_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProfileManagement_SearchTrain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchTrainRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProfileManagementServer).SearchTrain(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/profile.ProfileManagement/SearchTrain",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProfileManagementServer).SearchTrain(ctx, req.(*SearchTrainRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ProfileManagement_ServiceDesc is the grpc.ServiceDesc for ProfileManagement service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,10 +310,6 @@ var ProfileManagement_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EditAddress",
 			Handler:    _ProfileManagement_EditAddress_Handler,
-		},
-		{
-			MethodName: "SearchTrain",
-			Handler:    _ProfileManagement_SearchTrain_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

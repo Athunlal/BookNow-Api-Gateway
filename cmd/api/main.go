@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/admin"
@@ -15,17 +14,28 @@ import (
 func main() {
 	cfg, err := config.LoadConfig()
 	if err != nil {
-		log.Fatalln("Unable to load the config file : ", err)
+		log.Fatalln("Unable to load the config file: ", err)
 	}
 	r := gin.Default()
 
-	authsvc := *auth.RegisterRoutes(r, &cfg)
-	user.RegisterUserRoutes(r, &cfg, &authsvc)
+	done := make(chan bool)
 
-	authAdminsvc := *admin.AdminRoutes(r, &cfg)
-	train.AddTrainRoutes(r, &cfg, &authAdminsvc)
+	go func() {
+		authsvc := *auth.RegisterRoutes(r, &cfg)
+		user.RegisterUserRoutes(r, &cfg, &authsvc)
+		train.UserTrainSvc(r, &cfg, &authsvc)
+		done <- true
+	}()
 
-	fmt.Println(authsvc)
+	go func() {
+		authAdminsvc := *admin.AdminRoutes(r, &cfg)
+		train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
+		done <- true
+	}()
+
+	for i := 0; i < 2; i++ {
+		<-done
+	}
+
 	r.Run(cfg.Port)
-
 }
