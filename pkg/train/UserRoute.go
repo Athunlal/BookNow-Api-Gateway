@@ -18,7 +18,7 @@ func UserTrainSvc(r *gin.Engine, cfg *config.Config, userSVC *auth.ServiceAuth) 
 	train := r.Group("/train")
 	{
 
-		train.GET("/search", svc.SearchTrain)
+		train.POST("/search", svc.SearchTrain)
 	}
 }
 

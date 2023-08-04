@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/domain"
@@ -119,8 +118,6 @@ func SeatchTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 		utils.JsonInputValidation(ctx)
 		return
 	}
-
-	fmt.Println("this is the destination station ===============>>>>", searchData.DestinationStationid)
 	res, err := c.SearchTrain(context.Background(), &pb.SearchTrainRequest{
 		Date:                 searchData.Date,
 		Sourcestationid:      searchData.SourceStationid.Hex(),

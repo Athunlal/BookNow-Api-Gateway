@@ -20,11 +20,10 @@ func main() {
 	r := gin.Default()
 
 	authsvc := *auth.RegisterRoutes(r, &cfg)
-	authAdminsvc := *admin.AdminRoutes(r, &cfg)
-
 	user.RegisterUserRoutes(r, &cfg, &authsvc)
 	train.UserTrainSvc(r, &cfg, &authsvc)
 
+	authAdminsvc := *admin.AdminRoutes(r, &cfg)
 	train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
 
 	fmt.Println(authsvc)
