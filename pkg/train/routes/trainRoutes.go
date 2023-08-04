@@ -20,6 +20,7 @@ func AddTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 	res, err := c.AddTrain(context.Background(), &pb.AddTrainRequest{
 		Trainnumber: int64(trainData.TrainNumber),
 		Trainname:   trainData.TrainName,
+		Traintype:   trainData.TrainType,
 	})
 	if err != nil {
 		errs, _ := utils.ExtractError(err)

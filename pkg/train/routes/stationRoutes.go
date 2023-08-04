@@ -65,6 +65,7 @@ func AddStaion(ctx *gin.Context, c pb.TrainManagementClient) {
 		Stationname: stationData.StationName,
 		City:        stationData.City,
 	})
+
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -76,6 +77,35 @@ func AddStaion(ctx *gin.Context, c pb.TrainManagementClient) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
 			"Message": "Station adding Succeded",
+			"data":    res,
+		})
+	}
+}
+
+func UpdateTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
+	trainData := domain.Train{}
+	err := ctx.Bind(&trainData)
+	if err != nil {
+		utils.JsonInputValidation(ctx)
+		return
+	}
+
+	res, err := c.UpdateTrainRoute(context.Background(), &pb.UpdateRequest{
+		Trainnumber: int64(trainData.TrainNumber),
+		Route:       trainData.Route.Hex(),
+	})
+
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Updating Train route Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Updating Train route Succeded",
 			"data":    res,
 		})
 	}
