@@ -29,3 +29,12 @@ type RouteStation struct {
 	Distance    float32            `json:"distance,omitempty" bson:"distance,omitempty"`
 	Time        time.Time          `json:"time" bson:"time,omitempty"`
 }
+
+type SearchingTrainRequstedData struct {
+	Date                 string             `json:"data" bson:"data,omitempty"`
+	SourceStationid      primitive.ObjectID `json:"sourcestationid,omitempty" bson:"sourcestationid,omitempty"`
+	DestinationStationid primitive.ObjectID `json:"destinationstationid,omitempty" bson:"destinationstationid,omitempty"`
+}
+type SearchingTrainResponseData struct {
+	SearcheResponse []Train `json:"searcheresponse,omitempty" bson:"searcheresponse,omitempty"`
+}

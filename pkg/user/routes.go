@@ -16,6 +16,11 @@ func RegisterUserRoutes(user *gin.Engine, cfg *config.Config, authSvc *auth.Serv
 	// Use the auth middleware for all routes under /user
 	user.Use(authorize.AuthRequired)
 
+	train := user.Group("/train")
+	{
+		train.GET("/serch", svc.SearchTrain)
+	}
+
 	profile := user.Group("/profile")
 	{
 		profile.GET("/view", svc.ViewProfile)
@@ -57,4 +62,7 @@ func (svc *UserService) EditAddress(ctx *gin.Context) {
 
 func (svc *UserService) ViewAddressById(ctx *gin.Context) {
 	routes.ViewAddressById(ctx, svc.client)
+}
+func (svc *UserService) SearchTrain(ctx *gin.Context) {
+	routes.SeatchTrainRoute(ctx, svc.client)
 }
