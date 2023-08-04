@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"fmt"
-
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/auth/routes"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/config"
 	"github.com/gin-gonic/gin"
@@ -15,12 +13,18 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) *ServiceAuth {
 
 	user := r.Group("/user")
 	{
-		user.POST("/register", svc.Hei)
+		user.POST("/register", svc.Register)
 		user.POST("/register/validate", svc.RegitserValidate)
 		user.POST("/login", svc.Login)
 		user.POST("/forget/password", svc.ForgotPassword)
 		user.POST("/forget/password/validate", svc.RegitserValidate)
 		user.PATCH("/forget/password/validate/newpassword", svc.ChangePassword)
+	}
+	admin := r.Group("/admin")
+	{
+		admin.POST("/forget/password", svc.ForgotPassword)
+		admin.POST("/forget/password/validate", svc.RegitserValidate)
+		admin.PATCH("/forget/password/validate/newpassword", svc.ChangePassword)
 	}
 	return svc
 
@@ -28,13 +32,6 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) *ServiceAuth {
 
 func (svc *ServiceAuth) Register(ctx *gin.Context) {
 	routes.Register(ctx, svc.client)
-
-}
-
-func (svc *ServiceAuth) Hei(ctx *gin.Context) {
-	// routes.Register(ctx, svc.client)
-	fmt.Println("reahced here hai------->>>")
-
 }
 
 func (svc *ServiceAuth) RegitserValidate(ctx *gin.Context) {
