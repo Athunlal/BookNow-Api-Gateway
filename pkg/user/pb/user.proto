@@ -15,14 +15,12 @@ service ProfileManagement{
     rpc ViewAddress(ViewAddressRequest) returns (ViewAddressResponse) {}
     rpc ViewAddressById(ViewAddressByIdRequest) returns (ViewAddressByIdResponse) {}
     rpc EditAddress(EditAddressRequest) returns (EditAddressResponse) {}
-    // rpc SearchTrain(SearchTrainRequest) returns (SearchTrainResponse) {}    
 
 }
 
 message ViewAddressByIdRequest{
     int64 addid = 1;
     int64 uid = 2;
-
 }
 
 message ViewAddressByIdResponse{
@@ -123,22 +121,6 @@ message EditAddressResponse{
     int64 addid = 3;
 }
 
-//Search train 
-// message SearchTrainRequest{
-//     string date =1;
-//     string sourcestationid=2;
-//     string destinationstationid=3;
-// }
-// message SearchTrainResponse {
-//     int64 status = 1;
-//     string error = 2;
-//     repeated TrainData traindata=3;
-// }
-
-// message TrainData{
-//     string trainname =1;
-//     google.protobuf.Timestamp time = 2;
-// }
 
 // export PATH="$PATH:$(go env GOPATH)/bin"
 // protoc --go_out=. --go-grpc_out=. pkg/user/pb/user.proto

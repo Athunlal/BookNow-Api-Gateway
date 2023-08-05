@@ -15,12 +15,12 @@ func ViewProfile(ctx *gin.Context, c pb.ProfileManagementClient) {
 	// get the id from bearer token
 	id, _ := strconv.Atoi(ctx.GetString("userId"))
 
-	userData := domain.User{}
-	err := ctx.Bind(&userData)
-	if err != nil {
-		utils.JsonInputValidation(ctx)
-		return
-	}
+	// userData := domain.User{}
+	// err := ctx.Bind(&userData)
+	// if err != nil {
+	// 	utils.JsonInputValidation(ctx)
+	// 	return
+	// }
 
 	res, err := c.ViewProfile(context.Background(), &pb.ViewProfileRequest{
 		Id: int64(id),

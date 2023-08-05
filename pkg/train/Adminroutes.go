@@ -10,8 +10,6 @@ import (
 )
 
 func TrainManagementRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.ServiceAdmin) {
-	fmt.Println("reahce Add route second")
-
 	svc := &TraiService{
 		client: InitTrainService(cfg),
 	}
@@ -25,6 +23,7 @@ func TrainManagementRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.Se
 		admin.POST("/addstation", svc.AddStaion)
 		admin.POST("/addroute", svc.AddRoute)
 		admin.PATCH("/updateroute", svc.UpdateRoute)
+		admin.GET("/view", svc.ViewTrain)
 	}
 
 }
@@ -40,4 +39,8 @@ func (svc *TraiService) AddRoute(ctx *gin.Context) {
 }
 func (svc *TraiService) UpdateRoute(ctx *gin.Context) {
 	routes.UpdateTrainRoute(ctx, svc.client)
+}
+func (svc *TraiService) ViewTrain(ctx *gin.Context) {
+	fmt.Println("reached here ===========>..............")
+	routes.ViewTrain(ctx, svc.client)
 }

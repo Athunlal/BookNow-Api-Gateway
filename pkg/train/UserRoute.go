@@ -17,12 +17,10 @@ func UserTrainSvc(r *gin.Engine, cfg *config.Config, userSVC *auth.ServiceAuth) 
 	r.Use(authorize.AuthRequired)
 	train := r.Group("/train")
 	{
-
 		train.POST("/search", svc.SearchTrain)
 	}
 }
 
 func (svc *TraiService) SearchTrain(ctx *gin.Context) {
-
 	routes.SeatchTrainRoute(ctx, svc.client)
 }

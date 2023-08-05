@@ -1,25 +1,48 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"log"
+
+	"github.com/joho/godotenv"
+	"github.com/spf13/viper"
+)
 
 type Config struct {
-	Port          string `mapstructure:"PORT"`
-	Authsvcurl    string `mapstructure:"AUTHSVCURL"`
-	Usersvcurl    string `mapstructure:"USERSVCURL"`
-	Productsvcurl string `mapstructure:"productsvcurl"`
-	Adminsvcurl   string `mapstructure:"adminsvcurl"`
-	Trainsvurl    string `mapstructure:"trainsvcurl"`
+	Port        string `mapstructure:"PORT"`
+	Authsvcurl  string `mapstructure:"AUTHSVCURL"`
+	Usersvcurl  string `mapstructure:"USERSVCURL"`
+	Adminsvcurl string `mapstructure:"ADMINSVCURL"`
+	Trainsvurl  string `mapstructure:"TRAINSVCURL"`
 }
 
 func LoadConfig() (Config, error) {
 	var cfg Config
 	viper.AddConfigPath("./")
 	viper.SetConfigFile(".env")
-	viper.AutomaticEnv()
-	err := viper.ReadInConfig()
+	viper.ReadInConfig()
 
-	err = viper.Unmarshal(&cfg)
+	err := viper.Unmarshal(&cfg)
+	LoadEnv()
 
 	return cfg, err
+}
+func LoadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading Env File")
+	}
 
 }
+
+// func LoadConfig() (Config, error) {
+// 	var cfg Config
+// 	viper.AddConfigPath("./")
+// 	viper.SetConfigFile(".env")
+// 	viper.AutomaticEnv()
+// 	err := viper.ReadInConfig()
+
+// 	err = viper.Unmarshal(&cfg)
+
+// 	return cfg, err
+
+// }

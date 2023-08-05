@@ -22,7 +22,6 @@ func InitAdminMiddleware(Svc *ServiceAdmin) AdminMiddlewareConfig {
 }
 
 func (c *AdminMiddlewareConfig) AuthRequired(ctx *gin.Context) {
-
 	authorization := ctx.Request.Header.Get("authorization")
 	if authorization == "" {
 		ctx.AbortWithStatus(http.StatusUnauthorized)

@@ -10,6 +10,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ViewTrain(ctx *gin.Context, c pb.TrainManagementClient) {
+	res, err := c.ViewTrain(context.Background(), &pb.ViewTrainRequest{})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Viewing train Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Train viewing Succeded",
+			"data":    res,
+		})
+	}
+}
+
 func AddTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 	trainData := domain.Train{}
 	err := ctx.Bind(&trainData)

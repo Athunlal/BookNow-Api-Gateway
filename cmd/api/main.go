@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/admin"
@@ -26,7 +25,6 @@ func main() {
 	authAdminsvc := *admin.AdminRoutes(r, &cfg)
 	train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
 
-	fmt.Println(authsvc)
+	// Start the server
 	r.Run(cfg.Port)
-
 }
