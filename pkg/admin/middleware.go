@@ -33,7 +33,7 @@ func (c *AdminMiddlewareConfig) AuthRequired(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
-	res, err := c.svc.client.Validate(context.Background(), &pb.ValidateRequest{
+	res, err := c.svc.client.ValidateAdmin(context.Background(), &pb.ValidateAdminRequest{
 		Accesstoken: token[1],
 	})
 

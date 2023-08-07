@@ -12,18 +12,19 @@ import (
 )
 
 func main() {
+
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalln("Unable to load the config file : ", err)
 	}
 	r := gin.Default()
 
+	authAdminsvc := *admin.AdminRoutes(r, &cfg)
+	train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
+
 	authsvc := *auth.RegisterRoutes(r, &cfg)
 	user.RegisterUserRoutes(r, &cfg, &authsvc)
 	train.UserTrainSvc(r, &cfg, &authsvc)
-
-	authAdminsvc := *admin.AdminRoutes(r, &cfg)
-	train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
 
 	// Start the server
 	r.Run(cfg.Port)

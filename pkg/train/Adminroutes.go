@@ -1,8 +1,6 @@
 package train
 
 import (
-	"fmt"
-
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/admin"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/config"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/train/routes"
@@ -10,6 +8,7 @@ import (
 )
 
 func TrainManagementRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.ServiceAdmin) {
+
 	svc := &TraiService{
 		client: InitTrainService(cfg),
 	}
@@ -41,6 +40,5 @@ func (svc *TraiService) UpdateRoute(ctx *gin.Context) {
 	routes.UpdateTrainRoute(ctx, svc.client)
 }
 func (svc *TraiService) ViewTrain(ctx *gin.Context) {
-	fmt.Println("reached here ===========>..............")
 	routes.ViewTrain(ctx, svc.client)
 }
