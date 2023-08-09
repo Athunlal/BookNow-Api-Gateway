@@ -11,8 +11,12 @@ type Train struct {
 	TrainName   string             `json:"trainName" bson:"trainName,omitempty" validate:"required,min=2,max=50"`
 	Route       primitive.ObjectID `json:"route,omitempty" bson:"route,omitempty"`
 	TrainType   string             `json:"traintype" bson:"traintype,omitempty"`
-	Seatsid     primitive.ObjectID `json:"seatid,omitempty" bson:"_id,omitempty"`
+	Compartment []Compartment      `json:"compartment,omitempty" bson:"compartment,omitempty"`
 }
+type Compartment struct {
+	Seatid primitive.ObjectID `json:"seatid,omitempty" bson:"_id,omitempty"`
+}
+
 type Station struct {
 	StationName string `json:"stationname" bson:"stationname,omitempty"`
 	City        string `json:"city" bson:"city,omitempty"`

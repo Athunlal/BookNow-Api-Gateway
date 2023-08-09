@@ -18,10 +18,18 @@ func UpdateSeatIntoTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 		return
 	}
 
+	compartmentsPB := make([]*pb.Compartment, 0, len(updateData.Compartment))
+	for _, compartment := range updateData.Compartment {
+		compartmentsPB = append(compartmentsPB, &pb.Compartment{
+			Seatid: compartment.Seatid.Hex(),
+		})
+	}
+
 	res, err := c.UpdateSeatIntoTrain(context.Background(), &pb.UpdateSeatIntoTrainRequest{
-		Trainnumber: int64(updateData.TrainNumber),
-		Seatid:      updateData.Seatsid.Hex(),
+		Trainnumber:  int64(updateData.TrainNumber),
+		Compartments: compartmentsPB,
 	})
+
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{

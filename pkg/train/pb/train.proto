@@ -17,10 +17,13 @@ service TrainManagement {
     rpc UpdateSeatIntoTrain(updateSeatIntoTrainRequest)returns(updateSeatIntoTrainResponse){}
 }
 
-//update seate into trian collecation 
+//update seat into train 
+message Compartment{
+    string seatid = 1;
+}
 message updateSeatIntoTrainRequest{
     int64 trainnumber = 1; 
-    string seatid = 2;
+    repeated Compartment compartments = 2;
 }
 message updateSeatIntoTrainResponse{
     int64 status = 1;
@@ -28,13 +31,11 @@ message updateSeatIntoTrainResponse{
 }
 
 //Add seat
-message compartment {
+message AddSeatRequest {
+    int64 price =1;
     int64 numberofseat =2;
     string typeofseat=3;
     string compartment = 4;
-}
-message AddSeatRequest {
-   
 }
 message AddSeatResponse {
     int64 status = 1;
