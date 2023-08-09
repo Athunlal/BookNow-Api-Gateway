@@ -6,7 +6,7 @@ option go_package = "pkg/admin/pb";
 
 service AdminService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
-  rpc ValidateAdmin(ValidateAdminRequest) returns (ValidateAdminResponse) {}
+  rpc AdminValidate(AdminValidateRequest) returns (AdminValidateResponse) {}
   rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {}
 }
 
@@ -32,11 +32,11 @@ message ChangePasswordRequest {
   string password = 2;
 }
 
-message ValidateAdminRequest {
+message AdminValidateRequest {
   string accesstoken = 1;
 }
 
-message ValidateAdminResponse {
+message AdminValidateResponse {
   int64 status = 1;
   string error = 2;
   int64 adminid = 3;

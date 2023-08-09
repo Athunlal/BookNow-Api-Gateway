@@ -22,7 +22,6 @@ type AuthServiceClient interface {
 	RegisterValidate(ctx context.Context, in *RegisterValidateRequest, opts ...grpc.CallOption) (*RegisterValidateResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidateResponse, error)
-	AdminLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
 	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
 }
@@ -71,15 +70,6 @@ func (c *authServiceClient) Validate(ctx context.Context, in *ValidateRequest, o
 	return out, nil
 }
 
-func (c *authServiceClient) AdminLogin(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
-	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, "/auth.AuthService/AdminLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authServiceClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error) {
 	out := new(ForgotPasswordResponse)
 	err := c.cc.Invoke(ctx, "/auth.AuthService/ForgotPassword", in, out, opts...)
@@ -106,7 +96,6 @@ type AuthServiceServer interface {
 	RegisterValidate(context.Context, *RegisterValidateRequest) (*RegisterValidateResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Validate(context.Context, *ValidateRequest) (*ValidateResponse, error)
-	AdminLogin(context.Context, *LoginRequest) (*LoginResponse, error)
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
 	ChangePassword(context.Context, *ChangePasswordRequest) (*ForgotPasswordResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
@@ -127,9 +116,6 @@ func (UnimplementedAuthServiceServer) Login(context.Context, *LoginRequest) (*Lo
 }
 func (UnimplementedAuthServiceServer) Validate(context.Context, *ValidateRequest) (*ValidateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
-}
-func (UnimplementedAuthServiceServer) AdminLogin(context.Context, *LoginRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
 }
 func (UnimplementedAuthServiceServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
@@ -222,24 +208,6 @@ func _AuthService_Validate_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).AdminLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/auth.AuthService/AdminLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).AdminLogin(ctx, req.(*LoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AuthService_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ForgotPasswordRequest)
 	if err := dec(in); err != nil {
@@ -298,10 +266,6 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Validate",
 			Handler:    _AuthService_Validate_Handler,
-		},
-		{
-			MethodName: "AdminLogin",
-			Handler:    _AuthService_AdminLogin_Handler,
 		},
 		{
 			MethodName: "ForgotPassword",

@@ -22,7 +22,8 @@ func InitAdminMiddleware(Svc *ServiceAdmin) AdminMiddlewareConfig {
 }
 
 func (c *AdminMiddlewareConfig) AuthRequired(ctx *gin.Context) {
-	authorization := ctx.Request.Header.Get("authorization")
+
+	authorization := ctx.Request.Header.Get("Authorization")
 	if authorization == "" {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
@@ -33,7 +34,8 @@ func (c *AdminMiddlewareConfig) AuthRequired(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
-	res, err := c.svc.client.ValidateAdmin(context.Background(), &pb.ValidateAdminRequest{
+
+	res, err := c.svc.client.AdminValidate(context.Background(), &pb.AdminValidateRequest{
 		Accesstoken: token[1],
 	})
 

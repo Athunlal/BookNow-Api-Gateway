@@ -14,21 +14,13 @@ func RegisterUserRoutes(user *gin.Engine, cfg *config.Config, authSvc *auth.Serv
 	authorize := auth.InitAuthMiddleware(authSvc)
 
 	// Use the auth middleware for all routes under /user
-	user.Use(authorize.AuthRequired)
 
+	// user.Use(authorize.AuthRequired)
 	profile := user.Group("/profile")
 	{
-		profile.GET("/view", svc.ViewProfile)
-		profile.PUT("/edit", svc.EditProfile)
-		profile.PATCH("/change/password", svc.ChangePassword)
-	}
-
-	address := user.Group("/address")
-	{
-		address.POST("/add", svc.AddAdress)
-		address.GET("/view", svc.ViewAddressById)
-		address.GET("/view/all", svc.ViewAddress)
-		address.PUT("/edit", svc.EditAddress)
+		profile.GET("/view", authorize.AuthRequired, svc.ViewProfile)
+		profile.PUT("/edit", authorize.AuthRequired, svc.EditProfile)
+		profile.PATCH("/change/password", authorize.AuthRequired, svc.ChangePassword)
 	}
 }
 
@@ -41,20 +33,4 @@ func (svc *UserService) EditProfile(ctx *gin.Context) {
 }
 func (svc *UserService) ChangePassword(ctx *gin.Context) {
 	routes.ChangePassword(ctx, svc.client)
-}
-
-func (svc *UserService) AddAdress(ctx *gin.Context) {
-	routes.AddAdress(ctx, svc.client)
-}
-
-func (svc *UserService) ViewAddress(ctx *gin.Context) {
-	routes.ViewAddress(ctx, svc.client)
-}
-
-func (svc *UserService) EditAddress(ctx *gin.Context) {
-	routes.EditAddress(ctx, svc.client)
-}
-
-func (svc *UserService) ViewAddressById(ctx *gin.Context) {
-	routes.ViewAddressById(ctx, svc.client)
 }

@@ -89,7 +89,6 @@ func UpdateTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 		utils.JsonInputValidation(ctx)
 		return
 	}
-
 	res, err := c.UpdateTrainRoute(context.Background(), &pb.UpdateRequest{
 		Trainnumber: int64(trainData.TrainNumber),
 		Route:       trainData.Route.Hex(),
@@ -111,7 +110,7 @@ func UpdateTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 	}
 }
 
-func SeatchTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
+func SearchTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 	searchData := domain.SearchingTrainRequstedData{}
 	err := ctx.Bind(&searchData)
 	if err != nil {

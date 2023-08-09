@@ -11,11 +11,13 @@ func AdminRoutes(r *gin.Engine, cfg *config.Config) *ServiceAdmin {
 	svc := &ServiceAdmin{
 		client: InitServiceClient(cfg),
 	}
+
 	admin := r.Group("/admin")
 	{
 		admin.POST("/login", svc.AdminLogin)
 		admin.PATCH("/changepassword", svc.ChangePassword)
 	}
+
 	return svc
 }
 

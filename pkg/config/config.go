@@ -33,16 +33,3 @@ func LoadEnv() {
 	}
 
 }
-
-// func LoadConfig() (Config, error) {
-// 	var cfg Config
-// 	viper.AddConfigPath("./")
-// 	viper.SetConfigFile(".env")
-// 	viper.AutomaticEnv()
-// 	err := viper.ReadInConfig()
-
-// 	err = viper.Unmarshal(&cfg)
-
-// 	return cfg, err
-
-// }

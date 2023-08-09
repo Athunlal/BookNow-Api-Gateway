@@ -2,7 +2,9 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
+	"regexp"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc/status"
@@ -11,8 +13,9 @@ import (
 type Response struct {
 	Status  bool        `json:"status"`
 	Message string      `json:"message"`
-	Error   interface{} `json:"errors,omitempty"`
-	Data    interface{} `json:"data,omitempty"`
+	Error   interface{} `json:"erro
+	rs,omitempty"`
+	Data interface{} `json:"data,omitempty"`
 }
 
 func ExtractError(err error) (string, error) {
@@ -41,4 +44,12 @@ func FailureJson(ctx *gin.Context, statusCode int, booleanValue bool, message st
 		"Message": message,
 		"Error":   err,
 	})
+}
+
+func SeatValidation(data string) error {
+	pattern := regexp.MustCompile(`A[1-9]|A1[0-9]|A20|B[1-9]|B1[0-9]|B20|S[1-9]|S1[0-9]|S20`)
+	if !pattern.MatchString(data) {
+		return fmt.Errorf("Compartment name should be A1 to A20 , B1 t0 B2 and S1 to S20")
+	}
+	return nil
 }
