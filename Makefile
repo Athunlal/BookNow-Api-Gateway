@@ -10,5 +10,8 @@ protoAdmin:
 protoTrain:
 	protoc --go_out=. --go-grpc_out=. pkg/train/pb/train.proto
 
+protoBooking:
+	protoc --go_out=. --go-grpc_out=. pkg/booking/pb/booking.proto
+
 run:
 	go run cmd/api/main.go

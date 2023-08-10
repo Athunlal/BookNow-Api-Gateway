@@ -5,6 +5,7 @@ import (
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/admin"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/auth"
+	"github.com/athunlal/bookNow-Api-Gateway/pkg/booking"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/config"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/train"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/user"
@@ -24,6 +25,7 @@ func main() {
 
 	user.RegisterUserRoutes(r, &cfg, &authsvc)
 	train.UserTrainSvc(r, &cfg, &authsvc)
+	booking.BookingSvc(r, &cfg, &authsvc)
 
 	train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
 

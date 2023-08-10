@@ -8,11 +8,12 @@ import (
 )
 
 type Config struct {
-	Port        string `mapstructure:"PORT"`
-	Authsvcurl  string `mapstructure:"AUTHSVCURL"`
-	Usersvcurl  string `mapstructure:"USERSVCURL"`
-	Adminsvcurl string `mapstructure:"ADMINSVCURL"`
-	Trainsvurl  string `mapstructure:"TRAINSVCURL"`
+	Port         string `mapstructure:"PORT"`
+	Authsvcurl   string `mapstructure:"AUTHSVCURL"`
+	Usersvcurl   string `mapstructure:"USERSVCURL"`
+	Adminsvcurl  string `mapstructure:"ADMINSVCURL"`
+	Trainsvurl   string `mapstructure:"TRAINSVCURL"`
+	Bookingsvurl string `mapstructure:"BOOKINGSVCURL"`
 }
 
 func LoadConfig() (Config, error) {

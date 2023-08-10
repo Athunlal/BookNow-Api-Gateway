@@ -14,7 +14,9 @@ service TrainManagement {
     rpc SearchTrain(SearchTrainRequest) returns (SearchTrainResponse) {} 
     rpc ViewTrain(ViewTrainRequest)returns(ViewTrainResponse){}
     rpc AddSeat(AddSeatRequest)returns(AddSeatResponse){}
-    rpc UpdateSeatIntoTrain(updateSeatIntoTrainRequest)returns(updateSeatIntoTrainResponse){}
+    rpc UpdateSeatIntoTrain(updateSeatIntoTrainRequest)returns(updateSeatIntoTrainResponse){} 
+    
+      
 }
 
 //update seat into train 
