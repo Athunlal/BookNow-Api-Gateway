@@ -112,10 +112,13 @@ func AddTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 		utils.JsonInputValidation(ctx)
 		return
 	}
+
 	res, err := c.AddTrain(context.Background(), &pb.AddTrainRequest{
-		Trainnumber: int64(trainData.TrainNumber),
-		Trainname:   trainData.TrainName,
-		Traintype:   trainData.TrainType,
+		Trainnumber:  int64(trainData.TrainNumber),
+		Trainname:    trainData.TrainName,
+		Traintype:    trainData.TrainType,
+		Startingtime: trainData.StartingTime,
+		Endingtime:   trainData.EndingtingTime,
 	})
 	if err != nil {
 		errs, _ := utils.ExtractError(err)

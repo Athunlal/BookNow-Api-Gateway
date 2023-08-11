@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
+	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/status"
 )
 
@@ -52,4 +55,58 @@ func SeatValidation(data string) error {
 		return fmt.Errorf("Compartment name should be A1 to A20 , B1 t0 B2 and S1 to S20")
 	}
 	return nil
+}
+
+func ConvertStringToTimestamp(input string) (primitive.Timestamp, error) {
+	parsedTime, err := time.Parse(time.RFC3339, input)
+	if err != nil {
+		return primitive.Timestamp{}, err
+	}
+
+	seconds := parsedTime.Unix()
+	nanos := uint32(parsedTime.Nanosecond()) // Convert int32 to uint32
+
+	return primitive.Timestamp{T: uint32(seconds), I: nanos}, nil
+}
+
+func ConvertTimestampToString(timestamp primitive.Timestamp) string {
+	// Convert primitive.Timestamp to time.Time
+	seconds := int64(timestamp.T)
+	nanos := int64(timestamp.I)
+	t := time.Unix(seconds, nanos)
+
+	// Format time.Time as a string (change format as needed)
+	return t.Format(time.RFC3339)
+}
+
+func TimeToTimestamp(normalTime string) (primitive.Timestamp, error) {
+	parts := strings.Split(normalTime, ":")
+	if len(parts) != 2 {
+		return primitive.Timestamp{}, fmt.Errorf("invalid time format: %s", normalTime)
+	}
+
+	hour := parts[0]
+	minute := parts[1]
+
+	hourInt := 0
+	minuteInt := 0
+
+	_, err := fmt.Sscanf(hour, "%d", &hourInt)
+	if err != nil {
+		return primitive.Timestamp{}, err
+	}
+
+	_, err = fmt.Sscanf(minute, "%d", &minuteInt)
+	if err != nil {
+		return primitive.Timestamp{}, err
+	}
+
+	now := time.Now()
+	targetTime := time.Date(now.Year(), now.Month(), now.Day(), hourInt, minuteInt, 0, 0, now.Location())
+
+	seconds := targetTime.Unix()
+	return primitive.Timestamp{
+		T: uint32(seconds),
+		I: 0,
+	}, nil
 }
