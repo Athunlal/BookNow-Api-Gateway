@@ -24,6 +24,8 @@ message SearchTrainResponse {
 
 message TrainData{
     string trainname = 1;
-    string stationid = 2;
-    float  distance = 3;
-}   
+    int64 trainNumber =2;
+    string startingTime =3;
+    string endingtime = 4;
+    float  distance = 5;
+}

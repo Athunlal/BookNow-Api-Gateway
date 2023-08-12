@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/booking/pb"
@@ -22,6 +23,8 @@ func SearchTrainRoute(ctx *gin.Context, c pb.BookingManagementClient) {
 		Sourcestationid:      searchData.SourceStationid.Hex(),
 		Destinationstationid: searchData.DestinationStationid.Hex(),
 	})
+
+	fmt.Println("this is the reseponse : ", res.Traindata)
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -33,7 +36,7 @@ func SearchTrainRoute(ctx *gin.Context, c pb.BookingManagementClient) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
 			"Message": "Searching Train  Succeded",
-			"data":    res,
+			"data":    res.Traindata,
 		})
 	}
 
