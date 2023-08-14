@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/booking/pb"
@@ -10,6 +9,32 @@ import (
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
+
+func Booking(ctx *gin.Context, c pb.BookingManagementClient) {
+	bookingData := domain.Train{}
+	err := ctx.Bind(&bookingData)
+	if err != nil {
+		utils.JsonInputValidation(ctx)
+		return
+	}
+	res, err := c.Booking(context.Background(), &pb.BookingRequest{
+		Trainid: bookingData.TrainId,
+	})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Searching Train  Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Searching Train  Succeded",
+			"data":    res,
+		})
+	}
+}
 
 func SearchTrainRoute(ctx *gin.Context, c pb.BookingManagementClient) {
 	searchData := domain.SearchingTrainRequstedData{}
@@ -24,7 +49,6 @@ func SearchTrainRoute(ctx *gin.Context, c pb.BookingManagementClient) {
 		Destinationstationid: searchData.DestinationStationid.Hex(),
 	})
 
-	fmt.Println("this is the reseponse : ", res.Traindata)
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{

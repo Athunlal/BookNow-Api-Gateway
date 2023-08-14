@@ -8,7 +8,26 @@ option go_package = "./pkg/booking/pb";
 
 service BookingManagement {
     rpc SearchTrain(SearchTrainRequest) returns (SearchTrainResponse) {} 
+    rpc Booking(BookingRequest)returns(BookingReponse){}
 }
+
+//Booking
+message BookingRequest{
+    string trainid = 1;
+}
+message BookingReponse{
+    string trainname = 1;
+    string traintype = 2;
+    string startingtime = 3;
+    string endingtime = 4;
+    repeated compartment compartment = 5;
+}
+message compartment{
+    string compartmentname = 1;
+    string price = 2;
+    string availabilitystatus = 3;
+}
+
 //Search train 
 message SearchTrainRequest{
     string date =1;
@@ -28,4 +47,5 @@ message TrainData{
     string startingTime =3;
     string endingtime = 4;
     float  distance = 5;
+    string trainid = 6;
 }

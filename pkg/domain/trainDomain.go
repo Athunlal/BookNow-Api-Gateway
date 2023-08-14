@@ -7,6 +7,7 @@ import (
 )
 
 type Train struct {
+	TrainId        string             `json:"trainid,omitempty" bson:"trainid,omitempty"`
 	TrainNumber    uint               `json:"trainNumber" bson:"trainNumber,omitempty"`
 	TrainName      string             `json:"trainName" bson:"trainName,omitempty" validate:"required,min=2,max=50"`
 	Route          primitive.ObjectID `json:"route,omitempty" bson:"route,omitempty"`
