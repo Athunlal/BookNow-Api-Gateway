@@ -11,14 +11,11 @@ import (
 )
 
 func Booking(ctx *gin.Context, c pb.BookingManagementClient) {
-	bookingData := domain.Train{}
-	err := ctx.Bind(&bookingData)
-	if err != nil {
-		utils.JsonInputValidation(ctx)
-		return
-	}
+
+	trainId := ctx.Query("trainid")
+
 	res, err := c.Booking(context.Background(), &pb.BookingRequest{
-		Trainid: bookingData.TrainId,
+		Trainid: trainId,
 	})
 	if err != nil {
 		errs, _ := utils.ExtractError(err)

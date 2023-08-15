@@ -12,12 +12,16 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 		client: InitBookingService(cfg),
 	}
 
-	user := r.Group("/user/train/search")
+	user := r.Group("/user/train")
 	{
-		user.POST("/booking", svc.SearchTrain)
+		user.POST("/search", svc.SearchTrain)
+		user.GET("/booking", svc.Booking)
 	}
 }
 
 func (svc *BookingService) SearchTrain(ctx *gin.Context) {
 	routes.SearchTrainRoute(ctx, svc.client)
+}
+func (svc *BookingService) Booking(ctx *gin.Context) {
+	routes.Booking(ctx, svc.client)
 }
