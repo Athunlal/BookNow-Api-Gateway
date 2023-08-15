@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BookingManagementClient interface {
 	SearchTrain(ctx context.Context, in *SearchTrainRequest, opts ...grpc.CallOption) (*SearchTrainResponse, error)
-	Booking(ctx context.Context, in *BookingRequest, opts ...grpc.CallOption) (*BookingReponse, error)
+	Booking(ctx context.Context, in *BookingRequest, opts ...grpc.CallOption) (*BookingResponse, error)
 }
 
 type bookingManagementClient struct {
@@ -39,8 +39,8 @@ func (c *bookingManagementClient) SearchTrain(ctx context.Context, in *SearchTra
 	return out, nil
 }
 
-func (c *bookingManagementClient) Booking(ctx context.Context, in *BookingRequest, opts ...grpc.CallOption) (*BookingReponse, error) {
-	out := new(BookingReponse)
+func (c *bookingManagementClient) Booking(ctx context.Context, in *BookingRequest, opts ...grpc.CallOption) (*BookingResponse, error) {
+	out := new(BookingResponse)
 	err := c.cc.Invoke(ctx, "/Booking.BookingManagement/Booking", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (c *bookingManagementClient) Booking(ctx context.Context, in *BookingReques
 // for forward compatibility
 type BookingManagementServer interface {
 	SearchTrain(context.Context, *SearchTrainRequest) (*SearchTrainResponse, error)
-	Booking(context.Context, *BookingRequest) (*BookingReponse, error)
+	Booking(context.Context, *BookingRequest) (*BookingResponse, error)
 	mustEmbedUnimplementedBookingManagementServer()
 }
 
@@ -64,7 +64,7 @@ type UnimplementedBookingManagementServer struct {
 func (UnimplementedBookingManagementServer) SearchTrain(context.Context, *SearchTrainRequest) (*SearchTrainResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchTrain not implemented")
 }
-func (UnimplementedBookingManagementServer) Booking(context.Context, *BookingRequest) (*BookingReponse, error) {
+func (UnimplementedBookingManagementServer) Booking(context.Context, *BookingRequest) (*BookingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Booking not implemented")
 }
 func (UnimplementedBookingManagementServer) mustEmbedUnimplementedBookingManagementServer() {}
