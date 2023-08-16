@@ -11,6 +11,24 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+func ViewSation(ctx *gin.Context, c pb.TrainManagementClient) {
+	res, err := c.ViewStation(context.Background(), &pb.ViewRequest{})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "View Station Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "View station Succeeded",
+			"data":    res,
+		})
+	}
+}
+
 func AddRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 	routeData := domain.Route{}
 	err := ctx.Bind(&routeData)

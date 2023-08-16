@@ -10,11 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Booking(ctx *gin.Context, c pb.BookingManagementClient) {
+func SearchCompartment(ctx *gin.Context, c pb.BookingManagementClient) {
 
 	trainId := ctx.Query("trainid")
 
-	res, err := c.Booking(context.Background(), &pb.BookingRequest{
+	res, err := c.SearchCompartment(context.Background(), &pb.SearchCompartmentRequest{
 		Trainid: trainId,
 	})
 	if err != nil {

@@ -6,14 +6,14 @@ option go_package = "./pkg/booking/pb";
 
 service BookingManagement {
     rpc SearchTrain(SearchTrainRequest) returns (SearchTrainResponse) {} 
-    rpc Booking(BookingRequest)returns(BookingResponse){}
+    rpc SearchCompartment(SearchCompartmentRequest)returns(SearchCompartmentResponse){}
 }
 
 //Booking
-message BookingRequest{
+message SearchCompartmentRequest{
     string trainid = 1;
 }
-message BookingResponse{
+message SearchCompartmentResponse{
    repeated compartment compartment = 1;
 }
 message compartment{

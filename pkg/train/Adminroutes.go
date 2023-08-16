@@ -17,13 +17,20 @@ func TrainManagementRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.Se
 
 	admin := r.Group("/admin")
 	{
-		admin.POST("/addtrain", authorizeAdmin.AuthRequired, svc.AddTrain)
-		admin.POST("/addstation", authorizeAdmin.AuthRequired, svc.AddStaion)
-		admin.POST("/addroute", authorizeAdmin.AuthRequired, svc.AddRoute)
-		admin.PATCH("/updateroute", authorizeAdmin.AuthRequired, svc.UpdateRoute)
-		admin.GET("/view", authorizeAdmin.AuthRequired, svc.ViewTrain)
-		admin.POST("/addseat", authorizeAdmin.AuthRequired, svc.AddSeat)
-		admin.PATCH("/train/updateseate", authorizeAdmin.AuthRequired, svc.UpdateSeatIntoTrain)
+		train := admin.Group("/train")
+		{
+			train.POST("/add", authorizeAdmin.AuthRequired, svc.AddTrain)
+			train.POST("/seat/add", authorizeAdmin.AuthRequired, svc.AddSeat)
+			train.GET("/view", authorizeAdmin.AuthRequired, svc.ViewTrain)
+			train.PATCH("/update/route", authorizeAdmin.AuthRequired, svc.UpdateRoute)
+			train.PATCH("/update/seate", authorizeAdmin.AuthRequired, svc.UpdateSeatIntoTrain)
+		}
+		station := admin.Group("/station")
+		{
+			station.POST("/add", authorizeAdmin.AuthRequired, svc.AddStaion)
+			station.GET("/view", authorizeAdmin.AuthRequired, svc.ViewStation)
+		}
+		admin.POST("/route/add", authorizeAdmin.AuthRequired, svc.AddRoute)
 	}
 
 }
@@ -47,4 +54,7 @@ func (svc *TraiService) UpdateRoute(ctx *gin.Context) {
 }
 func (svc *TraiService) ViewTrain(ctx *gin.Context) {
 	routes.ViewTrain(ctx, svc.client)
+}
+func (svc *TraiService) ViewStation(ctx *gin.Context) {
+	routes.ViewSation(ctx, svc.client)
 }
