@@ -10,6 +10,33 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func BookTicket(ctx *gin.Context, c pb.BookingManagementClient) {
+	bookingData := domain.BookingData{}
+	err := ctx.Bind(&bookingData)
+	if err != nil {
+		utils.JsonInputValidation(ctx)
+		return
+	}
+	res, err := c.BookTicket(context.Background(), &pb.BookTiketRequest{
+		Compartmentid: bookingData.CompartmentId,
+		TrainId:       bookingData.TrainId,
+	})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Ticket booking Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Ticket booking Succeded",
+			"data":    res,
+		})
+	}
+}
+
 func SearchCompartment(ctx *gin.Context, c pb.BookingManagementClient) {
 
 	trainId := ctx.Query("trainid")
