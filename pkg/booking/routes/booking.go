@@ -2,7 +2,9 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/booking/pb"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/domain"
@@ -11,16 +13,23 @@ import (
 )
 
 func BookTicket(ctx *gin.Context, c pb.BookingManagementClient) {
-	bookingData := domain.BookingData{}
-	err := ctx.Bind(&bookingData)
-	if err != nil {
+
+	bookingData := &domain.BookingData{}
+	if err := ctx.Bind(&bookingData); err != nil {
 		utils.JsonInputValidation(ctx)
 		return
 	}
+
+	userID, _ := ctx.Get("userId")
+	userIDString := fmt.Sprintf("%v", userID)
+	int64Number, err := strconv.ParseInt(userIDString, 10, 64)
+
 	res, err := c.BookTicket(context.Background(), &pb.BookTiketRequest{
 		Compartmentid: bookingData.CompartmentId,
 		TrainId:       bookingData.TrainId,
+		Userid:        int64Number,
 	})
+
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{

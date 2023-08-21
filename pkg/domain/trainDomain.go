@@ -69,6 +69,6 @@ type SeatAddingData struct {
 	TypeOfSeat    string  `json:"type_of_seate"`
 }
 type BookingData struct {
-	TrainId       string `json:"trainid,omitempty" bson:"trainid,omitempty"`
-	CompartmentId string `json:"compartmentid,omitempty" bson:"compartmentid,omitempty"`
+	TrainId       string `json:"trainid" binding:"required"`
+	CompartmentId string `json:"compartmentid" binding:"required"`
 }

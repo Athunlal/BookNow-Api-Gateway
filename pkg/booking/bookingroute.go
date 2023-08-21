@@ -18,7 +18,7 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 	{
 		user.POST("/train", svc.SearchTrain)
 		user.GET("/train/compartment", svc.SearchCompartment)
-		user.GET("/train/ticket", authorize.AuthRequired, svc.BookTicket)
+		user.POST("/train/ticket", authorize.AuthRequired, svc.BookTicket)
 	}
 }
 
