@@ -7,18 +7,28 @@ option go_package = "./pkg/booking/pb";
 service BookingManagement {
     rpc SearchTrain(SearchTrainRequest) returns (SearchTrainResponse) {} 
     rpc SearchCompartment(SearchCompartmentRequest)returns(SearchCompartmentResponse){}
-    rpc BookTicket(BookTiketRequest)returns(BookTiketResponse){}
+    rpc Checkout(CheckoutRequest)returns(CheckoutResponse){}
 }
 
 //Ticket booking 
-message BookTiketRequest{
+message CheckoutRequest{
     string compartmentid = 1;
     string trainId = 2;
     int64 userid = 3;
 }
-message BookTiketResponse{
+message CheckoutResponse{
     int64 status = 1;
     string error = 2;
+    string trainName = 3;
+    int64 trainnumber =4;
+    string soureceStation=5;
+    string destinationStation=6;
+    string username =7;
+    repeated Travelers Travelers=8;
+}
+
+message Travelers{
+    string Travelername =1;
 }
 
 //Booking

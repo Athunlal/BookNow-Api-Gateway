@@ -17,8 +17,8 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 	user := r.Group("/user")
 	{
 		user.POST("/train", svc.SearchTrain)
-		user.GET("/train/compartment", svc.SearchCompartment)
-		user.POST("/train/ticket", authorize.AuthRequired, svc.BookTicket)
+		user.GET("/train/compartment", authorize.AuthRequired, svc.SearchCompartment)
+		user.POST("/train/booking/checkout", authorize.AuthRequired, svc.Checkout)
 	}
 }
 
@@ -28,6 +28,6 @@ func (svc *BookingService) SearchTrain(ctx *gin.Context) {
 func (svc *BookingService) SearchCompartment(ctx *gin.Context) {
 	routes.SearchCompartment(ctx, svc.client)
 }
-func (svc *BookingService) BookTicket(ctx *gin.Context) {
-	routes.BookTicket(ctx, svc.client)
+func (svc *BookingService) Checkout(ctx *gin.Context) {
+	routes.Checkout(ctx, svc.client)
 }

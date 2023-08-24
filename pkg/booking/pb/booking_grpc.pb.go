@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type BookingManagementClient interface {
 	SearchTrain(ctx context.Context, in *SearchTrainRequest, opts ...grpc.CallOption) (*SearchTrainResponse, error)
 	SearchCompartment(ctx context.Context, in *SearchCompartmentRequest, opts ...grpc.CallOption) (*SearchCompartmentResponse, error)
-	BookTicket(ctx context.Context, in *BookTiketRequest, opts ...grpc.CallOption) (*BookTiketResponse, error)
+	Checkout(ctx context.Context, in *CheckoutRequest, opts ...grpc.CallOption) (*CheckoutResponse, error)
 }
 
 type bookingManagementClient struct {
@@ -49,9 +49,9 @@ func (c *bookingManagementClient) SearchCompartment(ctx context.Context, in *Sea
 	return out, nil
 }
 
-func (c *bookingManagementClient) BookTicket(ctx context.Context, in *BookTiketRequest, opts ...grpc.CallOption) (*BookTiketResponse, error) {
-	out := new(BookTiketResponse)
-	err := c.cc.Invoke(ctx, "/Booking.BookingManagement/BookTicket", in, out, opts...)
+func (c *bookingManagementClient) Checkout(ctx context.Context, in *CheckoutRequest, opts ...grpc.CallOption) (*CheckoutResponse, error) {
+	out := new(CheckoutResponse)
+	err := c.cc.Invoke(ctx, "/Booking.BookingManagement/Checkout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (c *bookingManagementClient) BookTicket(ctx context.Context, in *BookTiketR
 type BookingManagementServer interface {
 	SearchTrain(context.Context, *SearchTrainRequest) (*SearchTrainResponse, error)
 	SearchCompartment(context.Context, *SearchCompartmentRequest) (*SearchCompartmentResponse, error)
-	BookTicket(context.Context, *BookTiketRequest) (*BookTiketResponse, error)
+	Checkout(context.Context, *CheckoutRequest) (*CheckoutResponse, error)
 	mustEmbedUnimplementedBookingManagementServer()
 }
 
@@ -78,8 +78,8 @@ func (UnimplementedBookingManagementServer) SearchTrain(context.Context, *Search
 func (UnimplementedBookingManagementServer) SearchCompartment(context.Context, *SearchCompartmentRequest) (*SearchCompartmentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchCompartment not implemented")
 }
-func (UnimplementedBookingManagementServer) BookTicket(context.Context, *BookTiketRequest) (*BookTiketResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BookTicket not implemented")
+func (UnimplementedBookingManagementServer) Checkout(context.Context, *CheckoutRequest) (*CheckoutResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Checkout not implemented")
 }
 func (UnimplementedBookingManagementServer) mustEmbedUnimplementedBookingManagementServer() {}
 
@@ -130,20 +130,20 @@ func _BookingManagement_SearchCompartment_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BookingManagement_BookTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BookTiketRequest)
+func _BookingManagement_Checkout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckoutRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BookingManagementServer).BookTicket(ctx, in)
+		return srv.(BookingManagementServer).Checkout(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Booking.BookingManagement/BookTicket",
+		FullMethod: "/Booking.BookingManagement/Checkout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookingManagementServer).BookTicket(ctx, req.(*BookTiketRequest))
+		return srv.(BookingManagementServer).Checkout(ctx, req.(*CheckoutRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -164,8 +164,8 @@ var BookingManagement_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BookingManagement_SearchCompartment_Handler,
 		},
 		{
-			MethodName: "BookTicket",
-			Handler:    _BookingManagement_BookTicket_Handler,
+			MethodName: "Checkout",
+			Handler:    _BookingManagement_Checkout_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

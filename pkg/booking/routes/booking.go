@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -12,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BookTicket(ctx *gin.Context, c pb.BookingManagementClient) {
+func Checkout(ctx *gin.Context, c pb.BookingManagementClient) {
 
 	bookingData := &domain.BookingData{}
 	if err := ctx.Bind(&bookingData); err != nil {
@@ -20,14 +19,11 @@ func BookTicket(ctx *gin.Context, c pb.BookingManagementClient) {
 		return
 	}
 
-	userID, _ := ctx.Get("userId")
-	userIDString := fmt.Sprintf("%v", userID)
-	int64Number, err := strconv.ParseInt(userIDString, 10, 64)
-
-	res, err := c.BookTicket(context.Background(), &pb.BookTiketRequest{
+	id, err := strconv.Atoi(ctx.GetString("userId"))
+	res, err := c.Checkout(context.Background(), &pb.CheckoutRequest{
 		Compartmentid: bookingData.CompartmentId,
 		TrainId:       bookingData.TrainId,
-		Userid:        int64Number,
+		Userid:        int64(id),
 	})
 
 	if err != nil {
