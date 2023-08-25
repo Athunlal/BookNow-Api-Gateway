@@ -72,3 +72,19 @@ type BookingData struct {
 	TrainId       string `json:"trainid" binding:"required"`
 	CompartmentId string `json:"compartmentid" binding:"required"`
 }
+
+type Travelers struct {
+	Travelername string `json:"travelername"`
+}
+
+type Payment struct {
+	Trainname   string      `json:"trainname,omitempty" bson:"price,omitempty"`
+	TrainNumber int64       `json:"trainnumber"`
+	UserName    string      `json:"username"`
+	Travelers   []Travelers `json:"travelers"`
+}
+
+type Wallet struct {
+	Username string
+	Amount   float32
+}

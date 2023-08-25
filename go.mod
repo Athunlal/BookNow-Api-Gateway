@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golang/protobuf v1.5.3
 	github.com/joho/godotenv v1.5.1
+	github.com/razorpay/razorpay-go v1.2.0
 	github.com/spf13/viper v1.16.0
 	go.mongodb.org/mongo-driver v1.12.0
 	google.golang.org/grpc v1.55.0

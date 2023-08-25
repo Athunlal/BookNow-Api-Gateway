@@ -19,9 +19,22 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 		user.POST("/train", svc.SearchTrain)
 		user.GET("/train/compartment", authorize.AuthRequired, svc.SearchCompartment)
 		user.POST("/train/booking/checkout", authorize.AuthRequired, svc.Checkout)
+		user.POST("/train/ticket/payment", authorize.AuthRequired, svc.Payment)
+		user.POST("/wallet/add", authorize.AuthRequired, svc.AddAmount)
+		user.POST("/wallet/create", authorize.AuthRequired, svc.CreateWallet)
+
 	}
 }
 
+func (svc *BookingService) CreateWallet(ctx *gin.Context) {
+	routes.CreateWallet(ctx, svc.client)
+}
+func (svc *BookingService) AddAmount(ctx *gin.Context) {
+	routes.AddAmount(ctx, svc.client)
+}
+func (svc *BookingService) Payment(ctx *gin.Context) {
+	routes.Payment(ctx, svc.client)
+}
 func (svc *BookingService) SearchTrain(ctx *gin.Context) {
 	routes.SearchTrainRoute(ctx, svc.client)
 }
