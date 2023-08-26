@@ -9,28 +9,19 @@ service BookingManagement {
     rpc SearchCompartment(SearchCompartmentRequest)returns(SearchCompartmentResponse){}
     rpc Checkout(CheckoutRequest)returns(CheckoutResponse){}
     rpc Payment(PaymentRequest)returns(PaymentResponse){}
-    rpc AddWallet(AddWalletRequest)returns(AddWalletResponse){}
     rpc CreateWallet(CreateWalletRequest)returns(CreateWalletResponse){}
 }
 
 //Create wallet
 message CreateWalletRequest{
     int64 userid = 1;
+    float walletBalance =2;
 }
 message CreateWalletResponse{
     int64 status = 1;
     string error = 2;
 }
-//Add wallet amoumt
-message AddWalletRequest{
-    string username = 1;
-    float amount = 2; 
-    int64 userid = 3;
-}
-message AddWalletResponse{
-    int64 status = 1;
-    string error = 2;
-}
+
 //Payment Razorpay
 message PaymentRequest{
     string trainname = 1; 

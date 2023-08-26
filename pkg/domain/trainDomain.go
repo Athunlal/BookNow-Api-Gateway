@@ -84,7 +84,11 @@ type Payment struct {
 	Travelers   []Travelers `json:"travelers"`
 }
 
-type Wallet struct {
-	Username string
-	Amount   float32
+type UserWallet struct {
+	ID            primitive.ObjectID `bson:"_id,omitempty"`
+	Userid        int64              `bson:"userid,omitempty"`
+	Username      string             `bson:"username"`
+	Email         string             `bson:"email"`
+	Amount        float64            `bson:"amount"`
+	WalletBalance float64            `bson:"walletBalance"`
 }

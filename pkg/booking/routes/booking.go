@@ -12,10 +12,17 @@ import (
 )
 
 func CreateWallet(ctx *gin.Context, c pb.BookingManagementClient) {
+	Wallet := &domain.UserWallet{}
+	if err := ctx.Bind(&Wallet); err != nil {
+		utils.JsonInputValidation(ctx)
+		return
+	}
+
 	id, err := strconv.Atoi(ctx.GetString("userId"))
 
 	res, err := c.CreateWallet(context.Background(), &pb.CreateWalletRequest{
-		Userid: int64(id),
+		WalletBalance: float32(Wallet.WalletBalance),
+		Userid:        int64(id),
 	})
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
@@ -28,34 +35,6 @@ func CreateWallet(ctx *gin.Context, c pb.BookingManagementClient) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
 			"Message": "Create wallet Succeded",
-			"data":    res,
-		})
-	}
-}
-
-func AddAmount(ctx *gin.Context, c pb.BookingManagementClient) {
-	Wallet := &domain.Wallet{}
-	if err := ctx.Bind(&Wallet); err != nil {
-		utils.JsonInputValidation(ctx)
-		return
-	}
-	id, err := strconv.Atoi(ctx.GetString("userId"))
-	res, err := c.AddWallet(context.Background(), &pb.AddWalletRequest{
-		Username: Wallet.Username,
-		Amount:   Wallet.Amount,
-		Userid:   int64(id),
-	})
-	if err != nil {
-		errs, _ := utils.ExtractError(err)
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Success": false,
-			"Message": "Add amount Failed",
-			"err":     errs,
-		})
-	} else {
-		ctx.JSON(http.StatusOK, gin.H{
-			"Success": true,
-			"Message": "Add amount  Succeded",
 			"data":    res,
 		})
 	}
