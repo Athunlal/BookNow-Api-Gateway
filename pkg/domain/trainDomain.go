@@ -69,8 +69,12 @@ type SeatAddingData struct {
 	TypeOfSeat    string  `json:"type_of_seate"`
 }
 type BookingData struct {
-	TrainId       string `json:"trainid" binding:"required"`
-	CompartmentId string `json:"compartmentid" binding:"required"`
+	TrainId              string `json:"trainid" binding:"required"`
+	CompartmentId        string `json:"compartmentid" binding:"required"`
+	Userid               int64
+	SourceStationid      primitive.ObjectID `json:"sourcestationid,omitempty" bson:"sourcestationid,omitempty"`
+	DestinationStationid primitive.ObjectID `json:"destinationstationid,omitempty" bson:"destinationstationid,omitempty"`
+	Travelers            []Travelers        `json:"travelers"`
 }
 
 type Travelers struct {
@@ -78,10 +82,11 @@ type Travelers struct {
 }
 
 type Payment struct {
-	Trainname   string      `json:"trainname,omitempty" bson:"price,omitempty"`
-	TrainNumber int64       `json:"trainnumber"`
-	UserName    string      `json:"username"`
-	Travelers   []Travelers `json:"travelers"`
+	Trainname   string `json:"trainname,omitempty" bson:"price,omitempty"`
+	TrainNumber int64  `json:"trainnumber"`
+	Trainid     string
+	UserName    string `json:"username"`
+	PNRnumber   int64  `json:"pnrnumber"`
 }
 
 type UserWallet struct {

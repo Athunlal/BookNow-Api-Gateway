@@ -11,6 +11,42 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func UpdateAmount(ctx *gin.Context, c pb.BookingManagementClient) {
+	Wallet := domain.UserWallet{}
+	if err := ctx.Bind(&Wallet); err != nil {
+		utils.JsonInputValidation(ctx)
+		return
+	}
+	id, err := strconv.Atoi(ctx.GetString("userId"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Update wallet Failed",
+			"err":     err,
+		})
+	}
+
+	res, err := c.UpdateAmount(context.Background(), &pb.UpdateAmountRequest{
+		Userid:        int64(id),
+		WalletBalance: float32(Wallet.WalletBalance),
+	})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Update wallet Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Update wallet Succeded",
+			"data":    res,
+		})
+	}
+
+}
+
 func CreateWallet(ctx *gin.Context, c pb.BookingManagementClient) {
 	Wallet := &domain.UserWallet{}
 	if err := ctx.Bind(&Wallet); err != nil {
@@ -47,15 +83,6 @@ func Payment(ctx *gin.Context, c pb.BookingManagementClient) {
 		return
 	}
 
-	var travelers []*pb.Travelers
-
-	for _, traveler := range paymentData.Travelers {
-		travelerInstance := &pb.Travelers{
-			Travelername: traveler.Travelername,
-		}
-		travelers = append(travelers, travelerInstance)
-	}
-
 	id, err := strconv.Atoi(ctx.GetString("userId"))
 	if err != nil {
 		ctx.JSON(400, gin.H{
@@ -66,10 +93,8 @@ func Payment(ctx *gin.Context, c pb.BookingManagementClient) {
 	}
 
 	res, err := c.Payment(context.Background(), &pb.PaymentRequest{
-		Trainname:   paymentData.Trainname,
-		Trainnumber: paymentData.TrainNumber,
-		Userid:      int64(id),
-		Travelers:   travelers,
+		Userid:    int64(id),
+		PNRnumber: paymentData.PNRnumber,
 	})
 
 	if err != nil {
@@ -97,24 +122,35 @@ func Checkout(ctx *gin.Context, c pb.BookingManagementClient) {
 		return
 	}
 
+	var travelers []*pb.Travelers
+	for _, traveler := range bookingData.Travelers {
+		travelerInstance := &pb.Travelers{
+			Travelername: traveler.Travelername,
+		}
+		travelers = append(travelers, travelerInstance)
+	}
+
 	id, err := strconv.Atoi(ctx.GetString("userId"))
 	res, err := c.Checkout(context.Background(), &pb.CheckoutRequest{
-		Compartmentid: bookingData.CompartmentId,
-		TrainId:       bookingData.TrainId,
-		Userid:        int64(id),
+		Compartmentid:        bookingData.CompartmentId,
+		TrainId:              bookingData.TrainId,
+		Sourcestationid:      bookingData.SourceStationid.Hex(),
+		Destinationstationid: bookingData.DestinationStationid.Hex(),
+		Userid:               int64(id),
+		Travelers:            travelers,
 	})
 
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Success": false,
-			"Message": "Ticket booking Failed",
+			"Message": "Checkout Failed",
 			"err":     errs,
 		})
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
-			"Message": "Ticket booking Succeded",
+			"Message": "Checkout Succeded",
 			"data":    res,
 		})
 	}

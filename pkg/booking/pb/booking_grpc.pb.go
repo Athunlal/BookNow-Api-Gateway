@@ -23,6 +23,7 @@ type BookingManagementClient interface {
 	Checkout(ctx context.Context, in *CheckoutRequest, opts ...grpc.CallOption) (*CheckoutResponse, error)
 	Payment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error)
 	CreateWallet(ctx context.Context, in *CreateWalletRequest, opts ...grpc.CallOption) (*CreateWalletResponse, error)
+	UpdateAmount(ctx context.Context, in *UpdateAmountRequest, opts ...grpc.CallOption) (*UpdateAmountResponse, error)
 }
 
 type bookingManagementClient struct {
@@ -78,6 +79,15 @@ func (c *bookingManagementClient) CreateWallet(ctx context.Context, in *CreateWa
 	return out, nil
 }
 
+func (c *bookingManagementClient) UpdateAmount(ctx context.Context, in *UpdateAmountRequest, opts ...grpc.CallOption) (*UpdateAmountResponse, error) {
+	out := new(UpdateAmountResponse)
+	err := c.cc.Invoke(ctx, "/Booking.BookingManagement/UpdateAmount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BookingManagementServer is the server API for BookingManagement service.
 // All implementations must embed UnimplementedBookingManagementServer
 // for forward compatibility
@@ -87,6 +97,7 @@ type BookingManagementServer interface {
 	Checkout(context.Context, *CheckoutRequest) (*CheckoutResponse, error)
 	Payment(context.Context, *PaymentRequest) (*PaymentResponse, error)
 	CreateWallet(context.Context, *CreateWalletRequest) (*CreateWalletResponse, error)
+	UpdateAmount(context.Context, *UpdateAmountRequest) (*UpdateAmountResponse, error)
 	mustEmbedUnimplementedBookingManagementServer()
 }
 
@@ -108,6 +119,9 @@ func (UnimplementedBookingManagementServer) Payment(context.Context, *PaymentReq
 }
 func (UnimplementedBookingManagementServer) CreateWallet(context.Context, *CreateWalletRequest) (*CreateWalletResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWallet not implemented")
+}
+func (UnimplementedBookingManagementServer) UpdateAmount(context.Context, *UpdateAmountRequest) (*UpdateAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAmount not implemented")
 }
 func (UnimplementedBookingManagementServer) mustEmbedUnimplementedBookingManagementServer() {}
 
@@ -212,6 +226,24 @@ func _BookingManagement_CreateWallet_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BookingManagement_UpdateAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BookingManagementServer).UpdateAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Booking.BookingManagement/UpdateAmount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BookingManagementServer).UpdateAmount(ctx, req.(*UpdateAmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BookingManagement_ServiceDesc is the grpc.ServiceDesc for BookingManagement service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -238,6 +270,10 @@ var BookingManagement_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateWallet",
 			Handler:    _BookingManagement_CreateWallet_Handler,
+		},
+		{
+			MethodName: "UpdateAmount",
+			Handler:    _BookingManagement_UpdateAmount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

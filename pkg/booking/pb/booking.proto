@@ -10,6 +10,16 @@ service BookingManagement {
     rpc Checkout(CheckoutRequest)returns(CheckoutResponse){}
     rpc Payment(PaymentRequest)returns(PaymentResponse){}
     rpc CreateWallet(CreateWalletRequest)returns(CreateWalletResponse){}
+    rpc UpdateAmount(UpdateAmountRequest)returns(UpdateAmountResponse){}
+}
+//add Amount
+message UpdateAmountRequest{
+    int64 userid = 1;
+    float walletBalance =2;
+}
+message UpdateAmountResponse{
+    int64 status = 1;
+    string error = 2;
 }
 
 //Create wallet
@@ -24,10 +34,8 @@ message CreateWalletResponse{
 
 //Payment Razorpay
 message PaymentRequest{
-    string trainname = 1; 
-    int64 trainnumber = 2;
-    int64 userid  = 3;
-    repeated Travelers travelers = 4;
+   int64 userid =1;
+   int64 PNRnumber =2;
 }
 
 message PaymentResponse{
@@ -40,17 +48,21 @@ message PaymentResponse{
 message CheckoutRequest{
     string compartmentid = 1;
     string trainId = 2;
-    int64 userid = 3;
+    string sourcestationid=3;
+    string destinationstationid=4;
+    int64 userid = 5;
+    repeated Travelers travelers = 6;
 }
 message CheckoutResponse{
-    int64 status = 1;
-    string error = 2;
-    string trainName = 3;
-    int64 trainnumber =4;
-    string soureceStation=5;
-    string destinationStation=6;
-    string username =7;
-    repeated Travelers Travelers=8;
+    string error = 1;
+    string trainName = 2;
+    int64 trainnumber =3;
+    string soureceStation=4;
+    string destinationStation=5;
+    string username =6;
+    repeated Travelers Travelers=7;
+    float amount = 8;
+    int64 PNRnumber = 9;
 }
 
 message Travelers{
