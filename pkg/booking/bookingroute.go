@@ -21,16 +21,28 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 
 	user := r.Group("/user")
 	{
-		user.POST("/train", svc.SearchTrain)
-		user.GET("/train/compartment", authorize.AuthRequired, svc.SearchCompartment)
-		user.POST("/train/booking/checkout", authorize.AuthRequired, svc.Checkout)
-		user.POST("/train/ticket/payment", authorize.AuthRequired, svc.Payment)
-		user.POST("/wallet/create", authorize.AuthRequired, svc.CreateWallet)
-		user.PATCH("/wallet/update", authorize.AuthRequired, svc.UpdateAmount)
+
+		train := user.Group("/train")
+		{
+			train.POST("/", svc.SearchTrain)
+			train.GET("/compartment", authorize.AuthRequired, svc.SearchCompartment)
+			train.POST("/booking/checkout", authorize.AuthRequired, svc.Checkout)
+			train.POST("/ticket/payment", authorize.AuthRequired, svc.Payment)
+			train.GET("/ticket/view", authorize.AuthRequired, svc.ViewTicket)
+		}
+
+		wallet := user.Group("/wallet")
+		{
+			wallet.POST("/create", authorize.AuthRequired, svc.CreateWallet)
+			wallet.PATCH("/update", authorize.AuthRequired, svc.UpdateAmount)
+		}
 
 	}
 }
 
+func (svc *BookingService) ViewTicket(ctx *gin.Context) {
+	routes.ViewTicket(ctx, svc.client)
+}
 func (svc *BookingService) UpdateAmount(ctx *gin.Context) {
 	routes.UpdateAmount(ctx, svc.client)
 }

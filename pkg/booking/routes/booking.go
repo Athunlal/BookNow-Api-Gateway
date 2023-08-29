@@ -11,6 +11,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ViewTicket(ctx *gin.Context, c pb.BookingManagementClient) {
+	id := ctx.Query("ticketId")
+
+	res, err := c.ViewTicket(context.Background(), &pb.ViewTicketRequest{
+		Ticketid: id,
+	})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "View ticket Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "View ticket Succeded",
+			"data":    res,
+		})
+	}
+
+}
+
 func UpdateAmount(ctx *gin.Context, c pb.BookingManagementClient) {
 	Wallet := domain.UserWallet{}
 	if err := ctx.Bind(&Wallet); err != nil {
