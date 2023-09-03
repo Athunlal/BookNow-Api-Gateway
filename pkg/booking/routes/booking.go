@@ -11,6 +11,34 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//Cancelletion ticket
+func CancelletionTicket(ctx *gin.Context, c pb.BookingManagementClient) {
+	id := ctx.Query("ticketId")
+	userid, err := strconv.Atoi(ctx.GetString("userId"))
+
+	res, err := c.CancelTicket(context.Background(), &pb.CancelTicketRequest{
+		Ticketid: id,
+		Userid:   int64(userid),
+	})
+
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Ticket cancellation  Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Ticket cancellation Succeded",
+			"data":    res,
+		})
+	}
+
+}
+
+//View ticket
 func ViewTicket(ctx *gin.Context, c pb.BookingManagementClient) {
 	id := ctx.Query("ticketId")
 
