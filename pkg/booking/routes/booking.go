@@ -2,6 +2,8 @@ package routes
 
 import (
 	"context"
+	"fmt"
+
 	"net/http"
 	"strconv"
 
@@ -10,6 +12,36 @@ import (
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
+
+func BookingHistory(ctx *gin.Context, c pb.BookingManagementClient) {
+	userIDStr := ctx.GetString("userId")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Ticket cancellation failed",
+			"Error":   fmt.Sprintf("Failed to convert '%s' to an integer: %s", userIDStr, err.Error()),
+		})
+		return
+	}
+	res, err := c.BookingHistory(context.Background(), &pb.BookingHistroyRequest{
+		Userid: int64(userID),
+	})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Viewing Booking hitstory Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Viewing Booking Succeded",
+			"data":    res,
+		})
+	}
+}
 
 //Cancelletion ticket
 func CancelletionTicket(ctx *gin.Context, c pb.BookingManagementClient) {

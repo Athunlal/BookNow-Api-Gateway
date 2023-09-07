@@ -29,7 +29,8 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 			train.POST("/booking/checkout", authorize.AuthRequired, svc.Checkout)
 			train.POST("/ticket/payment", authorize.AuthRequired, svc.Payment)
 			train.GET("/ticket/view", authorize.AuthRequired, svc.ViewTicket)
-			train.DELETE("/ticket/delete", svc.CancelletionTicket)
+			train.PATCH("/ticket/cancel", svc.CancelletionTicket)
+			train.GET("/booking/history", authorize.AuthRequired, svc.BookingHistory)
 		}
 
 		wallet := user.Group("/wallet")
@@ -40,7 +41,9 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 
 	}
 }
-
+func (svc *BookingService) BookingHistory(ctx *gin.Context) {
+	routes.BookingHistory(ctx, svc.client)
+}
 func (svc *BookingService) CancelletionTicket(ctx *gin.Context) {
 	routes.CancelletionTicket(ctx, svc.client)
 }
