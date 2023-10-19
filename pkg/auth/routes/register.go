@@ -25,10 +25,9 @@ func Register(ctx *gin.Context, p pb.AuthServiceClient) {
 		Phone:    body.Phone,
 	})
 
-	// extracting the error message from the GRPC error
 	errs, _ := utils.ExtractError(err)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
+		ctx.JSON(http.StatusConflict, gin.H{
 			"Success": false,
 			"Message": "Registering the User Failed",
 			"Error":   errs,
@@ -56,7 +55,6 @@ func RegisterValidate(ctx *gin.Context, p pb.AuthServiceClient) {
 		Otp:   body.Otp,
 	})
 
-	// extracting the error message from the GRPC error
 	errs, _ := utils.ExtractError(err)
 
 	if err != nil {

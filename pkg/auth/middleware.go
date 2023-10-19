@@ -37,7 +37,6 @@ func (c *AuthMiddlewareConfig) AuthRequired(ctx *gin.Context) {
 		Accesstoken: token[1],
 	})
 
-	// extracting the error message from the GRPC error
 	errs, _ := utils.ExtractError(err)
 
 	if err != nil {
