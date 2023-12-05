@@ -22,6 +22,7 @@ func ViewProfile(ctx *gin.Context, c pb.ProfileManagementClient) {
 	res, err := c.ViewProfile(context.Background(), &pb.ViewProfileRequest{
 		Id: int64(id),
 	})
+
 	if err != nil {
 		// extracting the error message from the GRPC error
 		errs, _ := utils.ExtractError(err)

@@ -135,11 +135,13 @@ func SearchTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 		utils.JsonInputValidation(ctx)
 		return
 	}
+
 	res, err := c.SearchTrain(context.Background(), &pb.SearchTrainRequest{
 		Date:                 searchData.Date,
 		Sourcestationid:      searchData.SourceStationid.Hex(),
 		Destinationstationid: searchData.DestinationStationid.Hex(),
 	})
+
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
