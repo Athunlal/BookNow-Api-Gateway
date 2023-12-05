@@ -32,8 +32,8 @@ func TrainManagementRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.Se
 		}
 		admin.POST("/route/add", authorizeAdmin.AuthRequired, svc.AddRoute)
 	}
-
 }
+
 func (svc *TraiService) UpdateSeatIntoTrain(ctx *gin.Context) {
 	routes.UpdateSeatIntoTrain(ctx, svc.client)
 }
