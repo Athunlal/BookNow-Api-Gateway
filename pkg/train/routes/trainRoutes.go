@@ -6,30 +6,47 @@ import (
 
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/domain"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/train/pb"
+	"github.com/athunlal/bookNow-Api-Gateway/pkg/train/response"
 	"github.com/athunlal/bookNow-Api-Gateway/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 
+func ViewComparment(ctx *gin.Context, c pb.TrainManagementClient) {
+	res, err := c.ViewCompartment(ctx, &pb.ViewCompartmentRequest{})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "View comapartment Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "View comapartment Succeded",
+			"data":    res,
+		})
+	}
+}
+
 func UpdateSeatIntoTrain(ctx *gin.Context, c pb.TrainManagementClient) {
-	updateData := domain.Train{}
-	err := ctx.Bind(&updateData)
+	updateData, err := utils.BindUpdateData(ctx)
 	if err != nil {
 		utils.JsonInputValidation(ctx)
 		return
 	}
 
-	compartmentsPB := make([]*pb.Compartment, 0, len(updateData.Compartment))
-	for _, compartment := range updateData.Compartment {
-		compartmentsPB = append(compartmentsPB, &pb.Compartment{
-			Seatid: compartment.Seatid.Hex(),
-		})
-	}
+	compartmentsPB := response.MapToUpdateCompartments(updateData)
 
 	res, err := c.UpdateSeatIntoTrain(context.Background(), &pb.UpdateSeatIntoTrainRequest{
 		Trainnumber:  int64(updateData.TrainNumber),
 		Compartments: compartmentsPB,
 	})
 
+	handleUpdateSeatResponse(ctx, res, err)
+}
+
+func handleUpdateSeatResponse(ctx *gin.Context, res *pb.UpdateSeatIntoTrainResponse, err error) {
 	if err != nil {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -40,7 +57,7 @@ func UpdateSeatIntoTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
-			"Message": "Update seat Succeded",
+			"Message": "Update seat Succeeded",
 			"data":    res,
 		})
 	}

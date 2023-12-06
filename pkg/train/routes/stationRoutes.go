@@ -11,6 +11,24 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+func ViewRoutes(ctx *gin.Context, c pb.TrainManagementClient) {
+	res, err := c.ViewRoute(context.Background(), &pb.ViewRoutesRequest{})
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "View Route Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "View Route Succeeded",
+			"data":    res,
+		})
+	}
+}
+
 func ViewSation(ctx *gin.Context, c pb.TrainManagementClient) {
 	res, err := c.ViewStation(context.Background(), &pb.ViewRequest{})
 	if err != nil {
@@ -157,4 +175,24 @@ func SearchTrainRoute(ctx *gin.Context, c pb.TrainManagementClient) {
 		})
 	}
 
+}
+
+func SearchTrainbyName(ctx *gin.Context, c pb.TrainManagementClient) {
+	trainName := ctx.Query("train_name")
+	res, err := c.SearchTrainByName(ctx, &pb.SearchTrainByNameRequest{TrainName: trainName})
+
+	if err != nil {
+		errs, _ := utils.ExtractError(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Success": false,
+			"Message": "Searching Train  Failed",
+			"err":     errs,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"Success": true,
+			"Message": "Searching Train  Succeded",
+			"data":    res,
+		})
+	}
 }

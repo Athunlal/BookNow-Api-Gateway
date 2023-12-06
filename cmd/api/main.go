@@ -20,14 +20,14 @@ func main() {
 	}
 	r := gin.Default()
 
-	authsvc := *auth.RegisterRoutes(r, &cfg)
-	authAdminsvc := *admin.AdminRoutes(r, &cfg)
+	authsvc := auth.RegisterRoutes(r, &cfg)
+	authAdminsvc := admin.AdminRoutes(r, &cfg)
 
-	user.RegisterUserRoutes(r, &cfg, &authsvc)
-	train.UserTrainSvc(r, &cfg, &authsvc)
-	booking.BookingSvc(r, &cfg, &authsvc)
+	user.RegisterUserRoutes(r, &cfg, authsvc)
+	train.UserTrainSvc(r, &cfg, authsvc)
+	booking.BookingSvc(r, &cfg, authsvc)
 
-	train.TrainManagementRoutes(r, &cfg, &authAdminsvc)
+	train.TrainManagementRoutes(r, &cfg, authAdminsvc)
 
 	// Start the server
 	r.Run(cfg.Port)

@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/athunlal/bookNow-Api-Gateway/pkg/domain"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/status"
@@ -109,4 +110,10 @@ func TimeToTimestamp(normalTime string) (primitive.Timestamp, error) {
 		T: uint32(seconds),
 		I: 0,
 	}, nil
+}
+
+func BindUpdateData(ctx *gin.Context) (domain.Train, error) {
+	updateData := domain.Train{}
+	err := ctx.Bind(&updateData)
+	return updateData, err
 }

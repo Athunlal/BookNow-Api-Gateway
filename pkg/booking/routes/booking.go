@@ -250,13 +250,13 @@ func SearchCompartment(ctx *gin.Context, c pb.BookingManagementClient) {
 		errs, _ := utils.ExtractError(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Success": false,
-			"Message": "Searching Train  Failed",
+			"Message": "Searching Compartment  Failed",
 			"err":     errs,
 		})
 	} else {
 		ctx.JSON(http.StatusOK, gin.H{
 			"Success": true,
-			"Message": "Searching Train  Succeded",
+			"Message": "Searching Compartment  Succeded",
 			"data":    res,
 		})
 	}
