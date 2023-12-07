@@ -22,7 +22,7 @@ func TrainManagementRoutes(r *gin.Engine, cfg *config.Config, adminSVC *admin.Se
 		train := admin.Group("/train")
 		{
 			train.PATCH("/route", authorizeAdmin.AuthRequired, svc.UpdateRoute)
-			train.PATCH("/seate", authorizeAdmin.AuthRequired, svc.UpdateSeatIntoTrain)
+			train.PATCH("/compartment", authorizeAdmin.AuthRequired, svc.UpdateSeatIntoTrain)
 		}
 		admin.POST("/route", authorizeAdmin.AuthRequired, svc.AddRoute)
 		admin.GET("route", authorizeAdmin.AuthRequired, svc.ViewRoutes)
