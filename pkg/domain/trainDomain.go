@@ -16,6 +16,10 @@ type Train struct {
 	TrainType      string             `json:"traintype" bson:"traintype,omitempty"`
 	Seatsid        primitive.ObjectID `json:"seatid,omitempty" bson:"_id,omitempty"`
 	Compartment    []Compartment      `json:"compartment,omitempty" bson:"compartment,omitempty"`
+	Date           []Date             `json:"date"`
+}
+type Date struct {
+	Day string `json:"day"`
 }
 type Compartment struct {
 	Seatid primitive.ObjectID `json:"seatid,omitempty" bson:"_id,omitempty"`
@@ -40,7 +44,7 @@ type RouteStation struct {
 }
 
 type SearchingTrainRequstedData struct {
-	Date                 string             `json:"data" bson:"data,omitempty"`
+	Date                 string
 	SourceStationid      primitive.ObjectID `json:"sourcestationid,omitempty" bson:"sourcestationid,omitempty"`
 	DestinationStationid primitive.ObjectID `json:"destinationstationid,omitempty" bson:"destinationstationid,omitempty"`
 }

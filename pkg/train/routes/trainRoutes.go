@@ -130,12 +130,18 @@ func AddTrain(ctx *gin.Context, c pb.TrainManagementClient) {
 		return
 	}
 
+	date := make([]*pb.Date, len(trainData.Date))
+	for i, val := range trainData.Date {
+		date[i] = &pb.Date{Day: val.Day}
+	}
+
 	res, err := c.AddTrain(context.Background(), &pb.AddTrainRequest{
 		Trainnumber:  int64(trainData.TrainNumber),
 		Trainname:    trainData.TrainName,
 		Traintype:    trainData.TrainType,
 		Startingtime: trainData.StartingTime,
 		Endingtime:   trainData.EndingtingTime,
+		Date:         date,
 	})
 	if err != nil {
 		errs, _ := utils.ExtractError(err)

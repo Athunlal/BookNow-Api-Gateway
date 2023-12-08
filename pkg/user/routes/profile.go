@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -16,7 +15,11 @@ func ViewProfile(ctx *gin.Context, c pb.ProfileManagementClient) {
 	// get the id from bearer token
 	id, err := strconv.Atoi(ctx.GetString("userId"))
 	if err != nil {
-		fmt.Println("user id geting through the string", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"Success": false,
+			"Message": "View Profile Failed",
+			"err":     err,
+		})
 	}
 
 	res, err := c.ViewProfile(context.Background(), &pb.ViewProfileRequest{
