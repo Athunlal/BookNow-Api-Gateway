@@ -33,12 +33,8 @@ func BookingSvc(r *gin.Engine, cfg *config.Config, authSvc *auth.ServiceAuth) {
 			train.GET("/booking/history", authorize.AuthRequired, svc.BookingHistory)
 		}
 
-		wallet := user.Group("/wallet")
-		{
-			wallet.POST("/create", authorize.AuthRequired, svc.CreateWallet)
-			wallet.PATCH("/update", authorize.AuthRequired, svc.UpdateAmount)
-		}
-
+		user.POST("/wallet", authorize.AuthRequired, svc.CreateWallet)
+		user.PATCH("/wallet", authorize.AuthRequired, svc.UpdateAmount)
 	}
 }
 func (svc *BookingService) BookingHistory(ctx *gin.Context) {
