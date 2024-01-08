@@ -24,7 +24,6 @@ func Login(ctx *gin.Context, c pb.AuthServiceClient) {
 		Password: user.Password,
 	})
 
-	// extracting the error message from the GRPC error
 	errs, _ := utils.ExtractError(err)
 
 	if err != nil {
